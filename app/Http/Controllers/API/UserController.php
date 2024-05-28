@@ -9,7 +9,6 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Redis;
 use Laravel\Fortify\Rules\Password;
 
 class UserController extends Controller
@@ -23,7 +22,7 @@ class UserController extends Controller
                 'name' => ['required', 'string', 'max:255'],
                 'username' => ['required', 'string', 'max:255', 'unique:users'],
                 'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-                'phone' => ['nullable', 'string', 'max:255'],
+                'phone' => ['nullable', 'null', 'max:255'],
                 'password' => ['required', 'string', new Password],
             ]);
 
@@ -32,7 +31,7 @@ class UserController extends Controller
                 'name' =>$request->name,
                 'username' =>$request->username,
                 'email' =>$request->email,
-                'phone' =>$request->phone,
+                'phone' =>$request->phone === null ? null : $request->NULL,
                 'password' => Hash::make($request->password),
             ]);
 
